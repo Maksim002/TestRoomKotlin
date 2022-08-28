@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainAdapter(var listener: Listener) : RecyclerView.Adapter<MainViewHolder>() {
+class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<MainViewHolder>() {
 
     private var item: List<Model>
     init {

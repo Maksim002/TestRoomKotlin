@@ -1,11 +1,12 @@
-package com.example.testroomkotlin
+package com.example.testroomkotlin.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.testroomkotlin.db.model.Model
 
-@Database (entities = [Model::class] ,version = 2)
+@Database (entities = [Model::class] ,version = 3)
 abstract class AppDataBase : RoomDatabase() {
     abstract fun appDataBase() : MDao
 
@@ -18,9 +19,9 @@ abstract class AppDataBase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDataBase::class.java,
-                    "Mar"
+                    "Room"
                 ).build()
-                this.instance = instance
+                Companion.instance = instance
                 instance
             }
 

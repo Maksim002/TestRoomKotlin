@@ -1,6 +1,7 @@
-package com.example.testroomkotlin
+package com.example.testroomkotlin.db
 
 import androidx.room.*
+import com.example.testroomkotlin.db.model.Model
 
 @Dao
 interface MDao{
@@ -21,5 +22,5 @@ interface MDao{
     fun deleteWord(word: Model)
 
     @Update
-    fun update(word:Model)
+    fun update(word: Model)
 }

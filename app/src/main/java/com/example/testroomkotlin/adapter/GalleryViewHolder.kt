@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testroomkotlin.db.model.Model
 import com.example.testroomkotlin.R
 
-class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private var title = itemView.findViewById<TextView>(R.id.titleTextView)
 
