@@ -1,7 +1,8 @@
-package com.example.testroomkotlin
+package com.example.testroomkotlin.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.AppDataBase
 
 class MainActivity : AppCompatActivity() {
