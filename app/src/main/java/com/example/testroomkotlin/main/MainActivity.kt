@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testroomkotlin.MainViewHolder
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.RecyclerAdapter
 import com.example.testroomkotlin.db.AppDataBase
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recycler_model.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var ad: RecyclerAdapter
     private lateinit var db: AppDataBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,28 +24,35 @@ class MainActivity : AppCompatActivity() {
 
         db = AppDataBase.instance(this)
 
-        val ad = RecyclerAdapter()
+        ad = RecyclerAdapter(object: MainViewHolder.Listener{
+            override fun setOnClickListenerDelete(dataItem: Model) {
+                AsyncTask.execute {
+                    db.appDataBase().deleteWord(dataItem)
+                }
+                wwww()
+            }
+        })
 
         addButton.setOnClickListener {
             val addItem = Model(0, edtext.text.toString())
             AsyncTask.execute {
                 db.appDataBase().insertModel(addItem)
             }
-            wwww(ad)
+            wwww()
         }
 
         deleteButton.setOnClickListener {
             AsyncTask.execute {
                 db.appDataBase().deleteAllModel()
             }
-            wwww(ad)
+            wwww()
         }
 
-        wwww(ad)
+        wwww()
         rView.adapter = ad
     }
 
-    fun wwww(ad: RecyclerAdapter){
+    fun wwww(){
         AsyncTask.execute {
             val l = db.appDataBase().getAllModel()
             runOnUiThread(Runnable {
