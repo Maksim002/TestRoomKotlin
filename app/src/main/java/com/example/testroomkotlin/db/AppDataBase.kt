@@ -1,4 +1,4 @@
-package com.example.testroomkotlin
+package com.example.testroomkotlin.db
 
 import android.content.Context
 import androidx.room.Database
@@ -18,9 +18,9 @@ abstract class AppDataBase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDataBase::class.java,
-                    "Mar"
+                    "Vio"
                 ).build()
-                this.instance = instance
+                Companion.instance = instance
                 instance
             }
 
