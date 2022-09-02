@@ -1,8 +1,9 @@
-package com.example.testroomkotlin
+package com.example.testroomkotlin.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.Model
 
 class RecyclerAdapter(var listener: MainViewHolder.Listener) : RecyclerView.Adapter<MainViewHolder>() {
