@@ -26,7 +26,7 @@ class AddActivity : AppCompatActivity() {
 
             AsyncTask.execute {
                 db.appDataBase().insertModel(dataItem)
-                firebaseDb.collection("user")
+                firebaseDb.collection("db")
                     .add(dataItem)
                 finish()
             }

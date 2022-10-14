@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testroomkotlin.db.model.Model
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.model.ModelGallery
+import kotlinx.android.synthetic.main.item_gallery.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,11 +36,17 @@ class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<GalleryViewH
     override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
         holder.bind(item[position], holder)
         holder.itemView.setOnClickListener {
-            listener.setOnClickListener(position, holder.itemView)
+            if (item[position].id == 9379992){
+                listener.setOnClickListener(position, holder.itemView)
+            }
+        }
+        holder.itemView.clear.setOnClickListener {
+            listener.setOnClickItem(position)
         }
     }
 
     interface Listener{
         fun setOnClickListener(position: Int, view: View)
+        fun setOnClickItem(position: Int)
     }
 }

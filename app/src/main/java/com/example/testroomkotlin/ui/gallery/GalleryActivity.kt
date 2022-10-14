@@ -1,5 +1,6 @@
 package com.example.testroomkotlin.ui.gallery
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -7,8 +8,12 @@ import com.example.testroomkotlin.R
 import com.example.testroomkotlin.adapter.GalleryAdapter
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ModelGallery
+import com.example.testroomkotlin.ui.addDB.AddActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_gallery.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GalleryActivity: AppCompatActivity(), GalleryView{
     private lateinit var db: AppDataBase
@@ -20,19 +25,22 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
-        //База firebase
-        firebaseDb = FirebaseFirestore.getInstance()
-        //База mobile
-        db = AppDataBase.instance(this)
-        GalleryRepository(db, firebaseDb, this).onCreate()
-
         initGallery()
     }
 
     private fun initGallery() {
         adapters = GalleryAdapter(object : GalleryAdapter.Listener{
             override fun setOnClickListener(position: Int, view: View) {
+                val intent = Intent(this@GalleryActivity, AddActivity::class.java)
+                startActivity(intent)
+            }
 
+            override fun setOnClickItem(position: Int) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    db.appDataBaseFir().deleteWord(list[position])
+                    list.removeAt(position)
+                    addListAdapter()
+                }
             }
         })
         list.add(ModelGallery(9379992, "Добавить"))
@@ -61,5 +69,14 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
     override fun addListMod(modelGallery: ModelGallery) {
         list.add(modelGallery)
         addListAdapter()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        //База firebase
+        firebaseDb = FirebaseFirestore.getInstance()
+        //База mobile
+        db = AppDataBase.instance(this)
+        GalleryRepository(db, firebaseDb, this).onCreate()
     }
 }
