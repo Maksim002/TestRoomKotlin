@@ -5,10 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.testroomkotlin.db.model.Model
+import com.example.testroomkotlin.db.model.ModelGallery
 
-@Database (entities = [Model::class] ,version = 3)
+@Database (entities = [Model::class, ModelGallery::class] ,version = 3)
 abstract class AppDataBase : RoomDatabase() {
     abstract fun appDataBase() : MDao
+    abstract fun appDataBaseFir() : MDaoGalliry
 
     companion object{
         @Volatile
@@ -24,7 +26,6 @@ abstract class AppDataBase : RoomDatabase() {
                 Companion.instance = instance
                 instance
             }
-
         }
     }
 }
