@@ -5,9 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.AppDataBase
-import com.example.testroomkotlin.db.model.Model
+import com.example.testroomkotlin.db.model.ModelGallery
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -22,10 +23,11 @@ class AddActivity : AppCompatActivity() {
         val db = AppDataBase.instance(this)
 
         add_button.setOnClickListener {
-            val dataItem = Model(Random().nextInt(500) + 20, titleEditText.text.toString())
+            val dataItem = ModelGallery(Random().nextInt(500) + 20, titleEditText.text.toString(),
+                SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()))
 
             AsyncTask.execute {
-                db.appDataBase().insertModel(dataItem)
+                db.appDataBaseFir().insertModel(dataItem)
                 firebaseDb.collection("db")
                     .add(dataItem)
                 finish()

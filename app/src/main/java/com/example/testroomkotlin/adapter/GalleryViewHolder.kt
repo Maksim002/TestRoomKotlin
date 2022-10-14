@@ -16,10 +16,11 @@ class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         title_id.text = dataItem.title
         if (dataItem.id == 9379992){
             image_id.setImageDrawable(resources.getDrawable(R.drawable.icons8_03))
-            clear.isVisible = false
+            clear.visibility = View.INVISIBLE
         }else{
+            time_id.text = dataItem.time
             image_id.setImageDrawable(resources.getDrawable(R.drawable.icons8_dock))
-            clear.isVisible = true
+            clear.visibility = View.VISIBLE
         }
     }
 }

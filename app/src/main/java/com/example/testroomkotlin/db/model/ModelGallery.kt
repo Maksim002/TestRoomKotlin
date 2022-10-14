@@ -9,5 +9,7 @@ data class ModelGallery(
     @PrimaryKey(autoGenerate = true)
    var id: Int? = null,
     @ColumnInfo(name = "title")
-    var title: String? = null
+    var title: String? = null,
+    @ColumnInfo(name = "time")
+    var time: String? = null
     )

@@ -11,13 +11,12 @@ import com.example.testroomkotlin.db.model.ModelGallery
 import com.example.testroomkotlin.ui.addDB.AddActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_gallery.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class GalleryActivity: AppCompatActivity(), GalleryView{
     private lateinit var db: AppDataBase
     private lateinit var firebaseDb: FirebaseFirestore
+
+    private lateinit var presenter: GalleryRepository
 
     private lateinit var adapters: GalleryAdapter
     private val list: ArrayList<ModelGallery> = arrayListOf()
@@ -36,11 +35,7 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
             }
 
             override fun setOnClickItem(position: Int) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    db.appDataBaseFir().deleteWord(list[position])
-                    list.removeAt(position)
-                    addListAdapter()
-                }
+                presenter.delete(list[position].id?: 0)
             }
         })
         list.add(ModelGallery(9379992, "Добавить"))
@@ -67,6 +62,10 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
     }
 
     override fun addListMod(modelGallery: ModelGallery) {
+        val index = list.indexOfFirst { it.id == modelGallery.id}
+        if (index != -1){
+            list.removeAt(index)
+        }
         list.add(modelGallery)
         addListAdapter()
     }
@@ -77,6 +76,7 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
         firebaseDb = FirebaseFirestore.getInstance()
         //База mobile
         db = AppDataBase.instance(this)
-        GalleryRepository(db, firebaseDb, this).onCreate()
+        presenter = GalleryRepository(db, firebaseDb, this)
+        presenter.onCreate()
     }
 }

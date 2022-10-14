@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.testroomkotlin.db.model.Model
 import com.example.testroomkotlin.db.model.ModelGallery
 
-@Database (entities = [Model::class, ModelGallery::class] ,version = 3)
+@Database (entities = [Model::class, ModelGallery::class] ,version = 5)
 abstract class AppDataBase : RoomDatabase() {
     abstract fun appDataBase() : MDao
     abstract fun appDataBaseFir() : MDaoGalliry
@@ -21,7 +21,7 @@ abstract class AppDataBase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDataBase::class.java,
-                    "Room"
+                    "RoomTest"
                 ).build()
                 Companion.instance = instance
                 instance

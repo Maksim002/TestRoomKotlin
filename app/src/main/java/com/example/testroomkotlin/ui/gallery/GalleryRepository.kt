@@ -1,6 +1,5 @@
 package com.example.testroomkotlin.ui.gallery
 
-import android.os.AsyncTask
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ModelGallery
 import com.google.firebase.firestore.DocumentChange
@@ -8,12 +7,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class GalleryRepository(
     private var db: AppDataBase,
     private var firebaseDb: FirebaseFirestore,
     var view: GalleryView
 ) : CoroutineScope by CoroutineScope(Dispatchers.IO) {
+
+    private var open : HashMap<Int,String> = hashMapOf()
 
     fun onCreate() {
         addList()
@@ -24,41 +26,49 @@ class GalleryRepository(
      firebaseDb.collection("db")
          .addSnapshotListener { value, error ->
              value?.documentChanges!!.forEach {
-                 if (it.type == DocumentChange.Type.ADDED){
-                     sortBd(it.document.toObject(ModelGallery::class.java))
-                 }
                  if (it.type == DocumentChange.Type.REMOVED){
                      launch {
                          val mod = it.document.toObject(ModelGallery::class.java)
                          db.appDataBaseFir().deleteWord(mod)
                          view.deleteModel(mod)
                      }
+                 }else{
+                     launch {
+                         sortBd(it.document.toObject(ModelGallery::class.java), it.document.id)
+                     }
                  }
              }
          }
     }
 
-    private fun sortBd(mod: ModelGallery) {
-        launch {
-            try {
-                if (db.appDataBaseFir().getAllModel().firstOrNull {it.id != mod.id && it.title != mod.title } == null){
-                    db.appDataBaseFir().insertModel(mod)
-                    view.updateAdapter(mod)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+    private fun sortBd(mod: ModelGallery, document: String) {
+        try {
+            if (db.appDataBaseFir().getAllModel().firstOrNull {it.id == mod.id} == null){
+                db.appDataBaseFir().insertModel(mod)
+                view.updateAdapter(mod)
             }
+            open[mod.id!!.toInt()] = document
+        }catch (e: Exception){
+            e.printStackTrace()
         }
+
     }
 
+    fun delete(position: Int){
+        firebaseDb.collection("db")
+            .document(open[position].toString())
+            .delete()
+    }
 
     private fun addList() {
+        val open : HashMap<Int,ModelGallery> = hashMapOf()
         launch {
             val modDb = db.appDataBaseFir().getAllModel()
             if (modDb.isNotEmpty()) {
                 for (i in modDb){
-                   view.addListMod(i)
+                   open[i.id!!] = i
                 }
+                open.map {view.addListMod(it.value)}
             }
         }
     }
