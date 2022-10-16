@@ -1,11 +1,7 @@
 package com.example.testroomkotlin.adapter
 
 import android.view.View
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testroomkotlin.db.model.Model
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.model.ModelGallery
 import kotlinx.android.synthetic.main.item_gallery.view.*

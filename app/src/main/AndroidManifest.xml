@@ -21,5 +21,6 @@
         </activity>
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.addDB.AddActivity" />
+        <activity android:name=".ui.content.AddContentActivity" />
     </application>
 </manifest>

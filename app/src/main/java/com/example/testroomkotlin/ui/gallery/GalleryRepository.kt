@@ -1,5 +1,6 @@
 package com.example.testroomkotlin.ui.gallery
 
+import androidx.lifecycle.MutableLiveData
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ModelGallery
 import com.google.firebase.firestore.DocumentChange
@@ -12,7 +13,7 @@ import java.lang.Exception
 class GalleryRepository(
     private var db: AppDataBase,
     private var firebaseDb: FirebaseFirestore,
-    var view: GalleryView
+    var view: GalleryView? = null
 ) : CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
     private var open : HashMap<Int,String> = hashMapOf()
@@ -30,11 +31,13 @@ class GalleryRepository(
                      launch {
                          val mod = it.document.toObject(ModelGallery::class.java)
                          db.appDataBaseFir().deleteWord(mod)
-                         view.deleteModel(mod)
+                         view!!.deleteModel(mod)
                      }
                  }else{
                      launch {
-                         sortBd(it.document.toObject(ModelGallery::class.java), it.document.id)
+                         if (it.document.id != ""){
+                             sortBd(it.document.toObject(ModelGallery::class.java), it.document.id)
+                         }
                      }
                  }
              }
@@ -45,7 +48,7 @@ class GalleryRepository(
         try {
             if (db.appDataBaseFir().getAllModel().firstOrNull {it.id == mod.id} == null){
                 db.appDataBaseFir().insertModel(mod)
-                view.updateAdapter(mod)
+                view!!.updateAdapter(mod)
             }
             open[mod.id!!.toInt()] = document
         }catch (e: Exception){
@@ -68,7 +71,7 @@ class GalleryRepository(
                 for (i in modDb){
                    open[i.id!!] = i
                 }
-                open.map {view.addListMod(it.value)}
+                open.map {view!!.addListMod(it.value)}
             }
         }
     }

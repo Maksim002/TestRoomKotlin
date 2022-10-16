@@ -3,12 +3,14 @@ package com.example.testroomkotlin.ui.gallery
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.adapter.GalleryAdapter
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ModelGallery
 import com.example.testroomkotlin.ui.addDB.AddActivity
+import com.example.testroomkotlin.ui.content.AddContentActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_gallery.*
 
@@ -28,10 +30,19 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
     }
 
     private fun initGallery() {
+
+        ssss.setOnClickListener {
+            tets.text =""
+        }
+
         adapters = GalleryAdapter(object : GalleryAdapter.Listener{
-            override fun setOnClickListener(position: Int, view: View) {
-                val intent = Intent(this@GalleryActivity, AddActivity::class.java)
-                startActivity(intent)
+            override fun setOnClickListener(position: Int, view: View, boolean: Boolean) {
+                if (!boolean){
+                    val intent = Intent(this@GalleryActivity, AddContentActivity::class.java)
+                    startActivity(intent)
+                }else{
+                    tets.text = list.toString()
+                }
             }
 
             override fun setOnClickItem(position: Int) {
@@ -57,8 +68,11 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
     }
 
     override fun deleteModel(modelGallery: ModelGallery?) {
-        list.remove(modelGallery)
-        addListAdapter()
+        val index = list.indexOfFirst { it.id == modelGallery?.id }
+        if (index != -1){
+            list.removeAt(index)
+            addListAdapter()
+        }
     }
 
     override fun addListMod(modelGallery: ModelGallery) {

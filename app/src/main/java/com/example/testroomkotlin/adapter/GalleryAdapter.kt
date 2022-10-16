@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testroomkotlin.db.model.Model
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.model.ModelGallery
 import kotlinx.android.synthetic.main.item_gallery.view.*
@@ -37,7 +36,9 @@ class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<GalleryViewH
         holder.bind(item[position], holder)
         holder.itemView.setOnClickListener {
             if (item[position].id == 9379992){
-                listener.setOnClickListener(position, holder.itemView)
+                listener.setOnClickListener(position, holder.itemView, false)
+            }else{
+                listener.setOnClickListener(position, holder.itemView, true)
             }
         }
         holder.itemView.clear.setOnClickListener {
@@ -46,7 +47,7 @@ class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<GalleryViewH
     }
 
     interface Listener{
-        fun setOnClickListener(position: Int, view: View)
+        fun setOnClickListener(position: Int, view: View, boolean: Boolean)
         fun setOnClickItem(position: Int)
     }
 }

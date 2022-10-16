@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/user/ProgectDrive/TestRoomKotlin/app/src/main/res/drawable/icons8_22.xml" value="0.2105" />
+        <entry key="..\:/Users/user/ProgectDrive/TestRoomKotlin/app/src/main/res/layout/activity_add_content.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/user/ProgectDrive/TestRoomKotlin/app/src/main/res/layout/activity_gallery.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/user/ProgectDrive/TestRoomKotlin/app/src/main/res/layout/item_content.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/user/ProgectDrive/TestRoomKotlin/app/src/main/res/layout/item_gallery.xml" value="0.36666666666666664" />
       </map>
     </option>
