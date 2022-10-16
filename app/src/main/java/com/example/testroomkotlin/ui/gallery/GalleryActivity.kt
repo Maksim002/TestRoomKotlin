@@ -30,20 +30,20 @@ class GalleryActivity: AppCompatActivity(), GalleryView{
     }
 
     private fun initGallery() {
-
-        ssss.setOnClickListener {
-            tets.text =""
-        }
-
         adapters = GalleryAdapter(object : GalleryAdapter.Listener{
             override fun setOnClickListener(position: Int, view: View, boolean: Boolean) {
+                val intent: Intent
                 if (!boolean){
-                    val intent = Intent(this@GalleryActivity, AddContentActivity::class.java)
-                    startActivity(intent)
+                    intent = Intent(this@GalleryActivity, AddContentActivity::class.java)
+                    intent.putExtra("value", false)
                 }else{
-                    tets.text = list.toString()
+                    intent = Intent(this@GalleryActivity, AddContentActivity::class.java)
+                    intent.putExtra("value", true)
+                    intent.putExtra("model", list[position])
+                    intent.putExtra("op", presenter.open[list[position].id].toString())
                 }
-            }
+                startActivity(intent)
+        }
 
             override fun setOnClickItem(position: Int) {
                 presenter.delete(list[position].id?: 0)

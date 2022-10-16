@@ -24,16 +24,28 @@
 
             <EditText
                 android:id="@+id/titleEditText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16sp"
                 android:backgroundTint="@color/color_text_white"
                 android:hint="Наименование таблицы"
                 android:inputType="text"
-                android:textColor="#fefe"
+                android:textColor="#fff"
+                android:layout_weight="1"
                 android:textColorHint="@color/color_text_white"
                 android:textSize="18sp"
                 tools:ignore="HardcodedText,RtlHardcoded" />
+
+            <com.suke.widget.SwitchButton
+                android:id="@+id/refreshFile"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:sb_button_color="@color/color_text_w"
+                app:sb_checked="false"
+                android:layout_marginStart="5dp"
+                app:sb_checked_color="@color/color_pale_blue"
+                app:sb_show_indicator="false" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -45,6 +57,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <LinearLayout
+            android:id="@+id/bottomSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
@@ -61,7 +74,7 @@
                 android:textColor="@color/color_text_w"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp"
-                tools:ignore="HardcodedText" />c
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/addItem"

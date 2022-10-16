@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import java.io.Serializable
 
 @Entity
 data class ModelGallery(
@@ -16,9 +17,4 @@ data class ModelGallery(
     @ColumnInfo(name = "arrey")
     @TypeConverters(AddModeContent::class)
     var arrey: List<ContentModel>? = null
-){
-    //var value: FireFranValue = FireFranValue(false, 0)
-    companion object Factory {
-        fun create() :ContentModel = ContentModel()
-    }
-}
+): Serializable

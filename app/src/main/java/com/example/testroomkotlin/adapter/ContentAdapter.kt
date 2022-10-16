@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 class ContentAdapter(var listener: Listener) : RecyclerView.Adapter<ContentViewHolder>() {
 
     private var item: List<ContentModel>
+    private var booleanVal: Boolean? = true
+
     init {
         item = ArrayList()
     }
@@ -21,6 +23,10 @@ class ContentAdapter(var listener: Listener) : RecyclerView.Adapter<ContentViewH
            item = items
            notifyItemChanged(itemCount)
         }
+    }
+
+    fun valueBol(boolean: Boolean = true){
+        booleanVal = boolean
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ContentViewHolder(
@@ -32,7 +38,7 @@ class ContentAdapter(var listener: Listener) : RecyclerView.Adapter<ContentViewH
     override fun getItemCount() = item.size
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.bind(item[position], holder)
+        holder.bind(item[position], holder, booleanVal)
     }
 
     interface Listener{

@@ -16,7 +16,7 @@ class GalleryRepository(
     var view: GalleryView? = null
 ) : CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
-    private var open : HashMap<Int,String> = hashMapOf()
+    var open : HashMap<Int,String> = hashMapOf()
 
     fun onCreate() {
         addList()
