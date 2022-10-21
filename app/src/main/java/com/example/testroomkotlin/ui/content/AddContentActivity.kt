@@ -22,8 +22,9 @@ import java.util.*
 class AddContentActivity : AppCompatActivity() {
 
     private lateinit var adapters: ContentAdapter
-    private var map: HashMap<Int, String> = hashMapOf()
+    private var map: HashMap<Int, ContentModel> = hashMapOf()
     private var listMap: ArrayList<ContentModel> = arrayListOf()
+    private val list: ArrayList<ContentModel> = arrayListOf()
 
     private lateinit var firebaseDb: FirebaseFirestore
     private lateinit var db: AppDataBase
@@ -40,22 +41,36 @@ class AddContentActivity : AppCompatActivity() {
 
         initClick()
 
-        val list: ArrayList<ContentModel> = arrayListOf()
-
         adapters = ContentAdapter(object : ContentAdapter.Listener {
             override fun setOnClickListener(text: String, int: Int) {
-                map[int] = text
+                map[int] = ContentModel(int, text, false)
+            }
+
+            override fun setOnClickListener(isCheck: Boolean, text: String, int: Int) {
+                map[int] = ContentModel(int, text, isCheck)
+                bottomSave.isVisible = true
+                addItem.isVisible = false
+            }
+
+            override fun setOnClickListenerDelete(intMap: Int, listMaps: Int) {
+//                map.remove(intMap)
+                listMap.removeAt(listMaps)
+                list.removeAt(listMaps)
+                adapters.setData(listMap)
+                bottomSave.isVisible = true
+                addItem.isVisible = false
             }
         })
 
         if (!intent.extras!!.getBoolean("value")) {
             adapters.setData(list)
             refreshFile.isVisible = false
-            list.add(ContentModel(""))
+            list.add(ContentModel(0,"", false))
         } else {
             val data = intent.extras!!.getSerializable("model") as ModelGallery
-            data.arrey?.map {list.add(it)}
-            data.arrey?.map {listMap.add(it)}
+            data.arrey?.map {list.add(ContentModel(it.id, it.text, it.isCheck))}
+            data.arrey?.map {listMap.add(ContentModel(it.id, it.text, it.isCheck))}
+            data.arrey?.map { map[it.id?:0] = ContentModel(it.id, it.text, it.isCheck) }
             titleEditText.setText(data.title)
             adapters.setData(data.arrey ?: arrayListOf())
             adapters.valueBol(false)
@@ -63,7 +78,6 @@ class AddContentActivity : AppCompatActivity() {
             titleEditText.isEnabled = false
             refreshFile.isVisible = true
         }
-
         recyclerView.adapter = adapters
 
         saveItem.setOnClickListener {
@@ -71,17 +85,10 @@ class AddContentActivity : AppCompatActivity() {
             val text = titleEditText.text.toString()
             if (text != "") {
                 CoroutineScope(Dispatchers.IO).launch {
-                    map.map {
-                        listMap.add(ContentModel(it.value))
+                    if (intent.extras!!.getBoolean("value")){
+                        deleteModel()
                     }
-                    val dataItem = ModelGallery(
-                        Random().nextInt(500) + 20, text,
-                        SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()), listMap
-                    )
-                    db.appDataBaseFir().insertModel(dataItem)
-                    firebaseDb.collection("db")
-                        .add(dataItem)
-                    finish()
+                    addModel(text)
                 }
             } else {
                 Toast.makeText(this, "Название базы введи потом твкай!!!", Toast.LENGTH_SHORT)
@@ -90,24 +97,43 @@ class AddContentActivity : AppCompatActivity() {
         }
 
         addItem.setOnClickListener {
-            list.add(ContentModel(""))
+            list.add(ContentModel(0,"", false))
             adapters.setData(list)
         }
     }
 
-    private fun initClick() = with(CoroutineScope(Dispatchers.IO)) {
+    //Удаление
+    private fun deleteModel(){
+        firebaseDb.collection("db")
+            .document(intent.extras!!.getString("op").toString())
+            .delete()
+        db.appDataBaseFir().deleteWord(intent.extras!!.getSerializable("model") as ModelGallery)
+    }
+
+    //Добовление
+    private fun addModel(text: String){
+        map.map {
+            listMap.add(ContentModel(it.key, it.value.text, it.value.isCheck))
+            list.add(ContentModel(it.key, it.value.text, it.value.isCheck))
+        }
+        val dataItem = ModelGallery(
+            Random().nextInt(500) + 20, text,
+            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()), listMap
+        )
+        db.appDataBaseFir().insertModel(dataItem)
+        firebaseDb.collection("db")
+            .add(dataItem)
+        finish()
+    }
+
+    private fun initClick() {
         refreshFile.isChecked = false
         refreshFile.setOnCheckedChangeListener { view, isChecked ->
             if (isChecked) {
                 adapters.valueBol(isChecked)
-                launch {
-                    firebaseDb.collection("db")
-                        .document(intent.extras!!.getString("op").toString())
-                        .delete()
-                    db.appDataBaseFir().deleteWord(intent.extras!!.getSerializable("model") as ModelGallery)
-                }
                 bottomSave.isVisible = true
                 titleEditText.isEnabled = true
+                addItem.isVisible = true
             }else{
                 adapters.valueBol(false)
                 bottomSave.isVisible = false
