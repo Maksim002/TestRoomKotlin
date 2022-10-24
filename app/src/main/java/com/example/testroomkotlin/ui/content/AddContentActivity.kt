@@ -172,4 +172,6 @@ class AddContentActivity : AppCompatActivity() {
         if (!refreshFile.isChecked)
         super.onBackPressed()
     }
+
+//    https://gitlab.kompanion.kg/
 }
