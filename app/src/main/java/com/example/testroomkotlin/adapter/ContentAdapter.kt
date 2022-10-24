@@ -45,6 +45,6 @@ class ContentAdapter(var listener: Listener) : RecyclerView.Adapter<ContentViewH
     interface Listener{
         fun setOnClickListener(text: String, int: Int)
         fun setOnClickListener(isCheck: Boolean, text: String, int: Int)
-        fun setOnClickListenerDelete(ntMap: Int, list: Int)
+        fun setOnClickListenerDelete(ntMap: ContentModel, list: Int)
     }
 }

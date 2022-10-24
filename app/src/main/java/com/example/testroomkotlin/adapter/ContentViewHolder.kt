@@ -20,16 +20,16 @@ class ContentViewHolder(itemView: View, var  listener: ContentAdapter.Listener) 
             name_edit_text.setText(dataItem.text)
         }
         refreshFile.setOnCheckedChangeListener { _, isChecked ->
-            listener.setOnClickListener(isChecked, name_edit_text.text.toString(), holder.adapterPosition)
+            listener.setOnClickListener(isChecked, name_edit_text.text.toString(), dataItem.id!!)
         }
         name_edit_text.addTextChangedListener {
             if (it.toString() != ""){
-                listener.setOnClickListener(it.toString(), holder.adapterPosition)
+                listener.setOnClickListener(it.toString(), dataItem.id?: holder.adapterPosition)
             }
         }
 
         deleteIm.setOnClickListener {
-            listener.setOnClickListenerDelete(dataItem.id!!.toInt(), holder.adapterPosition)
+            listener.setOnClickListenerDelete(dataItem, holder.adapterPosition)
         }
     }
 }

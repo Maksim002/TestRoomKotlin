@@ -10,7 +10,6 @@ import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ContentModel
 import com.example.testroomkotlin.db.model.ModelGallery
 import com.example.testroomkotlin.ui.gallery.GalleryRepository
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add_content.*
 import kotlinx.coroutines.CoroutineScope
@@ -35,57 +34,70 @@ class AddContentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_content)
 
+        //Инцилизация базы мабилки
+        //Инцелезация базы данных фаербес
         firebaseDb = FirebaseFirestore.getInstance()
         db = AppDataBase.instance(this)
         presenter = GalleryRepository(db, firebaseDb)
 
         initClick()
 
+        //Инцелезация адаптора
         adapters = ContentAdapter(object : ContentAdapter.Listener {
+            //Добовляет моделб
             override fun setOnClickListener(text: String, int: Int) {
                 map[int] = ContentModel(int, text, false)
             }
 
+            //Редактирует модель
             override fun setOnClickListener(isCheck: Boolean, text: String, int: Int) {
                 map[int] = ContentModel(int, text, isCheck)
                 bottomSave.isVisible = true
                 addItem.isVisible = false
             }
 
-            override fun setOnClickListenerDelete(intMap: Int, listMaps: Int) {
-//                map.remove(intMap)
-                listMap.removeAt(listMaps)
-                list.removeAt(listMaps)
+            //Удаляет модель
+            override fun setOnClickListenerDelete(ntMap: ContentModel, intMap: Int) {
+                map.remove(ntMap.id!!)
+                listMap.removeAt(intMap)
+                list.removeAt(intMap)
                 adapters.setData(listMap)
                 bottomSave.isVisible = true
                 addItem.isVisible = false
+                adapters.notifyItemRemoved(intMap)
             }
         })
 
-        if (!intent.extras!!.getBoolean("value")) {
+        if (!conValue()) {
+            //Новое добовление параметров
             adapters.setData(list)
             refreshFile.isVisible = false
             list.add(ContentModel(0,"", false))
         } else {
+            //Полечение данных с другова фрагмента для редактирования
             val data = intent.extras!!.getSerializable("model") as ModelGallery
-            data.arrey?.map {list.add(ContentModel(it.id, it.text, it.isCheck))}
-            data.arrey?.map {listMap.add(ContentModel(it.id, it.text, it.isCheck))}
-            data.arrey?.map { map[it.id?:0] = ContentModel(it.id, it.text, it.isCheck) }
+            data.arrey?.map {listMap.add(ContentModel(repId(), it.text, it.isCheck))}
+            listMap.map {
+                map[it.id!!.toInt()] = ContentModel(it.id, it.text, it.isCheck)
+                list.add(ContentModel(it.id, it.text, it.isCheck))
+            }
             titleEditText.setText(data.title)
-            adapters.setData(data.arrey ?: arrayListOf())
+            adapters.setData(listMap)
             adapters.valueBol(false)
             bottomSave.isVisible = false
             titleEditText.isEnabled = false
             refreshFile.isVisible = true
         }
+        //Приравниеваение дадатора к ресайклу
         recyclerView.adapter = adapters
 
+        //Клик на добоыление новых полей.
         saveItem.setOnClickListener {
             // TODO: vremenaz mera
             val text = titleEditText.text.toString()
             if (text != "") {
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (intent.extras!!.getBoolean("value")){
+                    if (conValue()){
                         deleteModel()
                     }
                     addModel(text)
@@ -102,7 +114,7 @@ class AddContentActivity : AppCompatActivity() {
         }
     }
 
-    //Удаление
+    //Удаление из баз
     private fun deleteModel(){
         firebaseDb.collection("db")
             .document(intent.extras!!.getString("op").toString())
@@ -112,14 +124,20 @@ class AddContentActivity : AppCompatActivity() {
 
     //Добовление
     private fun addModel(text: String){
+        listMap.clear()
+        list.clear()
         map.map {
             listMap.add(ContentModel(it.key, it.value.text, it.value.isCheck))
             list.add(ContentModel(it.key, it.value.text, it.value.isCheck))
         }
+
+        //Заполнение модели
         val dataItem = ModelGallery(
-            Random().nextInt(500) + 20, text,
+            repId(), text,
             SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()), listMap
         )
+
+        //Запись в баз данных
         db.appDataBaseFir().insertModel(dataItem)
         firebaseDb.collection("db")
             .add(dataItem)
@@ -128,7 +146,8 @@ class AddContentActivity : AppCompatActivity() {
 
     private fun initClick() {
         refreshFile.isChecked = false
-        refreshFile.setOnCheckedChangeListener { view, isChecked ->
+        // Слушательл включения чек бокса
+        refreshFile.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 adapters.valueBol(isChecked)
                 bottomSave.isVisible = true
@@ -143,6 +162,12 @@ class AddContentActivity : AppCompatActivity() {
         }
     }
 
+    //Генерация id
+    fun repId() = Random().nextInt(500) + 20
+    //Проверка новое добовление или редактирование старого
+    fun conValue() = intent.extras!!.getBoolean("value")
+
+    //Функция системная возврощает на предыдущий экран
     override fun onBackPressed() {
         if (!refreshFile.isChecked)
         super.onBackPressed()
