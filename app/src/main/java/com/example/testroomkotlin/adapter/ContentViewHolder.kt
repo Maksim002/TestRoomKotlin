@@ -15,16 +15,21 @@ class ContentViewHolder(itemView: View, var  listener: ContentAdapter.Listener) 
     fun bind(dataItem: ContentModel, holder: ContentViewHolder, booleanVal: Boolean? = true) = with(holder.itemView) {
         name_edit_text.isFocusable = booleanVal!!
         refreshFile.isChecked = dataItem.isCheck!!
+        name_edit_text.requestFocus()
         if (booleanVal) refreshFile.isVisible = false else booleanVal
         if (dataItem.text != ""){
             name_edit_text.setText(dataItem.text)
         }
         refreshFile.setOnCheckedChangeListener { _, isChecked ->
-            listener.setOnClickListener(isChecked, name_edit_text.text.toString(), dataItem.id!!)
+            listener.setOnClickListener(isChecked, name_edit_text.text.toString(), dataItem.id?: holder.adapterPosition)
         }
         name_edit_text.addTextChangedListener {
             if (it.toString() != ""){
-                listener.setOnClickListener(it.toString(), dataItem.id?: holder.adapterPosition)
+                if (dataItem.id != 0){
+                    listener.setOnClickListener(it.toString(), dataItem.id?: holder.adapterPosition)
+                }else{
+                    listener.setOnClickListener(it.toString(), holder.adapterPosition)
+                }
             }
         }
 

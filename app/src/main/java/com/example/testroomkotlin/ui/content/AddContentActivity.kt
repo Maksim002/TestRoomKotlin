@@ -173,5 +173,4 @@ class AddContentActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-//    https://gitlab.kompanion.kg/
 }
