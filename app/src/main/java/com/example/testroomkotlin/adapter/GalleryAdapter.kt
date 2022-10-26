@@ -38,7 +38,7 @@ class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<GalleryViewH
             if (item[position].id == 9379992){
                 listener.setOnClickListener(position, holder.itemView, false)
             }else{
-                listener.setOnClickListener(position, holder.itemView, true)
+                listener.setOnClickListener(item[position].id!!, holder.itemView, true)
             }
         }
         holder.itemView.clear.setOnClickListener {

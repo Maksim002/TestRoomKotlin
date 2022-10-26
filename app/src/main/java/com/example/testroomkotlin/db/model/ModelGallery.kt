@@ -16,5 +16,7 @@ data class ModelGallery(
     var time: String? = null,
     @ColumnInfo(name = "arrey")
     @TypeConverters(AddModeContent::class)
-    var arrey: List<ContentModel>? = null
-): Serializable
+    var arrey: List<ContentModel>? = null,
+    @ColumnInfo(name = "idDocument")
+    var idDocument: String? = null
+) : Serializable

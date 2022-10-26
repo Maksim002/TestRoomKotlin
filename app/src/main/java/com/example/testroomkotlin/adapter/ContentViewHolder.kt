@@ -24,7 +24,7 @@ class ContentViewHolder(itemView: View, var  listener: ContentAdapter.Listener) 
         }
         name_edit_text.addTextChangedListener {
             if (it.toString() != ""){
-                listener.setOnClickListener(it.toString(), dataItem.id?: holder.adapterPosition)
+                listener.setOnClickListener(it.toString(), if(dataItem.id != 0) dataItem.id!! else holder.adapterPosition)
             }
         }
 
