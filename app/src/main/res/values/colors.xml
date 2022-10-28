@@ -5,10 +5,16 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="color_text_w_pink">#F45E2E</color>
+    <color name="color_text_w_alpha">#FFEDE7</color>
     <color name="color_text_w">#2D86D9</color>
+    <color name="color_text_w_alpha_d">#F1F7FD</color>
+    <color name="color_text_dark">#000</color>
     <color name="color_text_wss">#2D86D9</color>
     <color name="color_text_white">#fefe</color>
     <color name="transparent">#00000000</color>
 
     <color name="color_pale_blue">#C7E2F6</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color_or" tools:override="true">@color/color_text_w_pink</color>
+    <color name="mtrl_textinput_default_box_stroke_color_blue" tools:override="true">@color/color_text_w</color>
 </resources>

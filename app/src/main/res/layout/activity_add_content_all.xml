@@ -76,7 +76,7 @@
                 android:layout_marginBottom="16dp"
                 tools:ignore="HardcodedText" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/addItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:textColor="@color/color_text_w"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,UnusedAttribute" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

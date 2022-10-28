@@ -1,15 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppThemeMi" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/color_text_w_pink</item>
+        <item name="colorAccent">@color/color_text_w_pink</item>
+    </style>
+
+    <style name="AppThemeAll" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/color_text_w</item>
         <item name="colorAccent">@color/color_text_w</item>
-    </style>
-
-    <style name="AppThemesss" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/colorAccent</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 </resources>

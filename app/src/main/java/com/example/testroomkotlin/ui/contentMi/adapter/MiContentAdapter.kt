@@ -1,4 +1,4 @@
-package com.example.testroomkotlin.ui.contentAll.adapter
+package com.example.testroomkotlin.ui.contentMi.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AllContentAdapter(var listener: Listener) : RecyclerView.Adapter<AllContentViewHolder>() {
+class MiContentAdapter(var listener: Listener) : RecyclerView.Adapter<MiContentViewHolder>() {
 
     private var item: List<ContentModel>
     private var booleanVal: Boolean? = true
@@ -29,15 +29,15 @@ class AllContentAdapter(var listener: Listener) : RecyclerView.Adapter<AllConten
         booleanVal = boolean
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AllContentViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MiContentViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.item_content_all, parent, false
+            R.layout.item_content_mi, parent, false
         ), listener
     )
 
     override fun getItemCount() = item.size
 
-    override fun onBindViewHolder(holder: AllContentViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MiContentViewHolder, position: Int) {
         holder.bind(item[position], holder, booleanVal)
     }
 

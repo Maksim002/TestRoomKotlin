@@ -5,13 +5,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.testroomkotlin.R
-import com.example.testroomkotlin.ui.contentAll.adapter.AllContentAdapter
+import com.example.testroomkotlin.ui.contentMi.adapter.MiContentAdapter
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ContentModel
 import com.example.testroomkotlin.db.model.ModelGallery
+import com.example.testroomkotlin.ui.contentAll.adapter.AllContentAdapter
 import com.example.testroomkotlin.ui.main.fragment.all.AllDatabaseRepository
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_add_content.*
+import kotlinx.android.synthetic.main.activity_add_content_all.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +33,8 @@ class AllContentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_content)
+        setTheme(R.style.AppThemeAll)
+        setContentView(R.layout.activity_add_content_all)
 
         //Инцилизация базы мабилки
         //Инцелезация базы данных фаербес
@@ -163,9 +165,9 @@ class AllContentActivity : AppCompatActivity() {
     }
 
     //Генерация id
-    fun repId() = Random().nextInt(500) + 20
+    private fun repId() = Random().nextInt(500) + 20
     //Проверка новое добовление или редактирование старого
-    fun conValue() = intent.extras!!.getBoolean("value")
+    private fun conValue() = intent.extras!!.getBoolean("value")
 
     //Функция системная возврощает на предыдущий экран
     override fun onBackPressed() {

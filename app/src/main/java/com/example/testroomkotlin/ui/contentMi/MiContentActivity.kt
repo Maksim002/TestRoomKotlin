@@ -8,9 +8,9 @@ import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ContentModel
 import com.example.testroomkotlin.db.model.Model
-import com.example.testroomkotlin.ui.contentAll.adapter.AllContentAdapter
+import com.example.testroomkotlin.ui.contentMi.adapter.MiContentAdapter
 import com.example.testroomkotlin.ui.main.fragment.mi.MiDatabaseRepository
-import kotlinx.android.synthetic.main.activity_add_content.*
+import kotlinx.android.synthetic.main.activity_add_content_mi.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ import java.util.*
 
 class MiContentActivity : AppCompatActivity() {
 
-    private lateinit var adapters: AllContentAdapter
+    private lateinit var adapters: MiContentAdapter
     private var map: HashMap<Int, ContentModel> = hashMapOf()
     private var listMap: ArrayList<ContentModel> = arrayListOf()
     private val list: ArrayList<ContentModel> = arrayListOf()
@@ -30,7 +30,8 @@ class MiContentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_content)
+        setTheme(R.style.AppThemeMi)
+        setContentView(R.layout.activity_add_content_mi)
 
         //Инцилизация базы мабилки
         db = AppDataBase.instance(this)
@@ -39,7 +40,7 @@ class MiContentActivity : AppCompatActivity() {
         initClick()
 
         //Инцелезация адаптора
-        adapters = AllContentAdapter(object : AllContentAdapter.Listener {
+        adapters = MiContentAdapter(object : MiContentAdapter.Listener {
             //Добовляет моделб
             override fun setOnClickListener(text: String, int: Int) {
                 map[int] = ContentModel(int, text, false)

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/color_text_w_pink"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_file" />
+
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16sp"
+            android:backgroundTint="@color/color_text_white"
+            android:hint="Наименование таблицы"
+            android:inputType="textCapSentences"
+            android:textColor="#fff"
+            android:layout_weight="1"
+            android:textColorHint="@color/color_text_white"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText,RtlHardcoded" />
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/refreshFile"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            app:sb_button_color="@color/color_text_w_pink"
+            app:sb_checked="false"
+            android:layout_marginStart="5dp"
+            app:sb_checked_color="@color/color_pale_blue"
+            app:sb_show_indicator="false" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <LinearLayout
+        android:id="@+id/bottomSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/saveItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="10dp"
+            android:padding="2dp"
+            android:text="Сохронить"
+            android:textColor="@color/color_text_w_pink"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/addItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawableEnd="@drawable/icons8_plus"
+            android:drawablePadding="10dp"
+            android:padding="2dp"
+            android:text="Добавить"
+            android:drawableTint="@color/color_text_w_pink"
+            android:textColor="@color/color_text_w_pink"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"
+            tools:ignore="HardcodedText,UnusedAttribute" />
+    </LinearLayout>
+</LinearLayout>
+</androidx.core.widget.NestedScrollView>

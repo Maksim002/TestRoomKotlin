@@ -1,15 +1,15 @@
-package com.example.testroomkotlin.ui.contentAll.adapter
+package com.example.testroomkotlin.ui.contentMi.adapter
 
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testroomkotlin.db.model.ContentModel
-import kotlinx.android.synthetic.main.item_content_all.view.*
+import kotlinx.android.synthetic.main.item_content_mi.view.*
 
-class AllContentViewHolder(itemView: View, var  listener: AllContentAdapter.Listener) : RecyclerView.ViewHolder(itemView) {
+class MiContentViewHolder(itemView: View, var  listener: MiContentAdapter.Listener) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(dataItem: ContentModel, holder: AllContentViewHolder, booleanVal: Boolean? = true) = with(holder.itemView) {
+    fun bind(dataItem: ContentModel, holder: MiContentViewHolder, booleanVal: Boolean? = true) = with(holder.itemView) {
         name_edit_text.isFocusable = booleanVal!!
         refreshFile.isChecked = dataItem.isCheck!!
         name_edit_text.requestFocus()
