@@ -97,6 +97,5 @@ class MiDatabaseFragment : Fragment(), MiDatabaseView {
         presenter = MiDatabaseRepository(db, this)
         presenter.onCreate()
     }
-
     fun intends() = Intent(requireActivity(), MiContentActivity::class.java)
 }
