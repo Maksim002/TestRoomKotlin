@@ -53,6 +53,7 @@
         android:id="@+id/deleteIm"
         android:layout_width="30dp"
         android:layout_height="40dp"
+        android:layout_marginStart="5dp"
         android:src="@drawable/icons8_22"
         android:layout_gravity="center"
         app:layout_constraintRight_toLeftOf="@+id/name_text_input"
