@@ -1,16 +1,15 @@
-package com.example.testroomkotlin.ui.content
+package com.example.testroomkotlin.ui.contentMi
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.testroomkotlin.R
-import com.example.testroomkotlin.adapter.ContentAdapter
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ContentModel
-import com.example.testroomkotlin.db.model.ModelGallery
-import com.example.testroomkotlin.ui.gallery.GalleryRepository
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.testroomkotlin.db.model.Model
+import com.example.testroomkotlin.ui.contentAll.adapter.AllContentAdapter
+import com.example.testroomkotlin.ui.main.fragment.mi.MiDatabaseRepository
 import kotlinx.android.synthetic.main.activity_add_content.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,32 +17,29 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddContentActivity : AppCompatActivity() {
+class MiContentActivity : AppCompatActivity() {
 
-    private lateinit var adapters: ContentAdapter
+    private lateinit var adapters: AllContentAdapter
     private var map: HashMap<Int, ContentModel> = hashMapOf()
     private var listMap: ArrayList<ContentModel> = arrayListOf()
     private val list: ArrayList<ContentModel> = arrayListOf()
+    private lateinit var model: Model
 
-    private lateinit var firebaseDb: FirebaseFirestore
     private lateinit var db: AppDataBase
-
-    private lateinit var presenter: GalleryRepository
+    private lateinit var presenter: MiDatabaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_content)
 
         //Инцилизация базы мабилки
-        //Инцелезация базы данных фаербес
-        firebaseDb = FirebaseFirestore.getInstance()
         db = AppDataBase.instance(this)
-        presenter = GalleryRepository(db, firebaseDb)
+        presenter = MiDatabaseRepository(db)
 
         initClick()
 
         //Инцелезация адаптора
-        adapters = ContentAdapter(object : ContentAdapter.Listener {
+        adapters = AllContentAdapter(object : AllContentAdapter.Listener {
             //Добовляет моделб
             override fun setOnClickListener(text: String, int: Int) {
                 map[int] = ContentModel(int, text, false)
@@ -75,8 +71,9 @@ class AddContentActivity : AppCompatActivity() {
             list.add(ContentModel(0,"", false))
         } else {
             //Полечение данных с другова фрагмента для редактирования
-            val data = intent.extras!!.getSerializable("model") as ModelGallery
+            val data = intent.extras!!.getSerializable("model") as Model
             data.arrey?.map {listMap.add(ContentModel(repId(), it.text, it.isCheck))}
+            model = data
             listMap.map {
                 map[it.id!!.toInt()] = ContentModel(it.id, it.text, it.isCheck)
                 list.add(ContentModel(it.id, it.text, it.isCheck))
@@ -97,14 +94,11 @@ class AddContentActivity : AppCompatActivity() {
             val text = titleEditText.text.toString()
             if (text != "") {
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (conValue()){
-                        deleteModel()
-                    }
                     addModel(text)
                 }
             } else {
-                Toast.makeText(this, "Название базы введи потом твкай!!!", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this,
+                    "Название базы введи потом твкай!!!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -112,14 +106,6 @@ class AddContentActivity : AppCompatActivity() {
             list.add(ContentModel(0,"", false))
             adapters.setData(list)
         }
-    }
-
-    //Удаление из баз
-    private fun deleteModel(){
-        firebaseDb.collection("db")
-            .document(intent.extras!!.getString("op").toString())
-            .delete()
-        db.appDataBaseFir().deleteWord(intent.extras!!.getSerializable("model") as ModelGallery)
     }
 
     //Добовление
@@ -132,15 +118,15 @@ class AddContentActivity : AppCompatActivity() {
         }
 
         //Заполнение модели
-        val dataItem = ModelGallery(
+        val dataItem = Model(
             repId(), text,
             SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()), listMap
         )
 
         //Запись в баз данных
-        db.appDataBaseFir().insertModel(dataItem)
-        firebaseDb.collection("db")
-            .add(dataItem)
+        if (::model.isInitialized){
+            db.appDataBase().update(Model(model.id, model.title, model.time, listMap))
+        }else db.appDataBase().insertModel(dataItem)
         finish()
     }
 
@@ -163,15 +149,13 @@ class AddContentActivity : AppCompatActivity() {
     }
 
     //Генерация id
-    fun repId() = Random().nextInt(500) + 20
+    private fun repId() = Random().nextInt(500) + 20
     //Проверка новое добовление или редактирование старого
-    fun conValue() = intent.extras!!.getBoolean("value")
+    private fun conValue() = intent.extras!!.getBoolean("value")
 
     //Функция системная возврощает на предыдущий экран
     override fun onBackPressed() {
         if (!refreshFile.isChecked)
-        super.onBackPressed()
+            super.onBackPressed()
     }
-
-//    https://gitlab.kompanion.kg/
 }

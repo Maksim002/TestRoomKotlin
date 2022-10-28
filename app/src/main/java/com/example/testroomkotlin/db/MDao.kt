@@ -9,9 +9,6 @@ interface MDao{
     @Query("SELECT * FROM model")
     fun getAllModel():List<Model>
 
-    @Insert
-    fun insert(word: Model)
-
     @Query("DELETE FROM model ")
     fun deleteAllModel()
 

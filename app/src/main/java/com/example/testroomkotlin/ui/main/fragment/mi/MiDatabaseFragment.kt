@@ -1,35 +1,41 @@
-package com.example.testroomkotlin.ui.gallery
+package com.example.testroomkotlin.ui.main.fragment.mi
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
 import com.example.testroomkotlin.R
-import com.example.testroomkotlin.ui.main.fragment.all.adapter.AllAdapter
+import com.example.testroomkotlin.ui.main.fragment.mi.adapter.MiAdapter
 import com.example.testroomkotlin.db.AppDataBase
-import com.example.testroomkotlin.db.model.ModelGallery
+import com.example.testroomkotlin.db.model.Model
 import com.example.testroomkotlin.ui.contentAll.AllContentActivity
-import com.example.testroomkotlin.ui.main.fragment.all.AllDatabaseRepository
-import com.example.testroomkotlin.ui.main.fragment.all.AllDatabaseView
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.testroomkotlin.ui.contentMi.MiContentActivity
 import kotlinx.android.synthetic.main.activity_gallery.*
 
-class GalleryActivity: AppCompatActivity(), AllDatabaseView {
+class MiDatabaseFragment : Fragment(), MiDatabaseView {
     private lateinit var db: AppDataBase
-    private lateinit var firebaseDb: FirebaseFirestore
-    private lateinit var presenter: AllDatabaseRepository
+    private lateinit var presenter: MiDatabaseRepository
 
-    private lateinit var adapters: AllAdapter
-    private val list: ArrayList<ModelGallery> = arrayListOf()
+    private lateinit var adapters: MiAdapter
+    private val list: ArrayList<Model> = arrayListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gallery)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_mi_databasek, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initGallery()
     }
 
     private fun initGallery() {
-        adapters = AllAdapter(object : AllAdapter.Listener{
+        adapters = MiAdapter(object : MiAdapter.Listener{
             override fun setOnClickListener(position: Int, view: View, boolean: Boolean) {
                 val intent: Intent
                 if (!boolean){
@@ -39,16 +45,17 @@ class GalleryActivity: AppCompatActivity(), AllDatabaseView {
                     intent = intends()
                     intent.putExtra("value", true)
                     intent.putExtra("model", list[position])
-                    intent.putExtra("op", presenter.open[list[position].id].toString())
                 }
                 startActivity(intent)
-        }
+            }
 
             override fun setOnClickItem(position: Int) {
-                presenter.delete(list[position].id?: 0)
+                presenter.delete(list[position])
+                list.removeAt(position)
+                adapters.setData(list)
             }
         })
-        list.add(ModelGallery(9379992, "Добавить"))
+        list.add(Model(9379992, "Добавить"))
         addListAdapter()
         recyclerMi.adapter = adapters
     }
@@ -59,14 +66,14 @@ class GalleryActivity: AppCompatActivity(), AllDatabaseView {
         }
     }
 
-    override fun updateAdapter(modelGallery: ModelGallery?) {
+    override fun updateAdapter(modelGallery: Model?) {
         if (modelGallery != null){
             list.add(modelGallery)
         }
         addListAdapter()
     }
 
-    override fun deleteModel(modelGallery: ModelGallery?) {
+    override fun deleteModel(modelGallery: Model?) {
         val index = list.indexOfFirst { it.id == modelGallery?.id }
         if (index != -1){
             list.removeAt(index)
@@ -74,7 +81,7 @@ class GalleryActivity: AppCompatActivity(), AllDatabaseView {
         }
     }
 
-    override fun addListMod(modelGallery: ModelGallery) {
+    override fun addListMod(modelGallery: Model) {
         val index = list.indexOfFirst { it.id == modelGallery.id}
         if (index != -1){
             list.removeAt(index)
@@ -85,13 +92,11 @@ class GalleryActivity: AppCompatActivity(), AllDatabaseView {
 
     override fun onStart() {
         super.onStart()
-        //База firebase
-        firebaseDb = FirebaseFirestore.getInstance()
         //База mobile
-        db = AppDataBase.instance(this)
-        presenter = AllDatabaseRepository(db, firebaseDb, this)
+        db = AppDataBase.instance(requireContext())
+        presenter = MiDatabaseRepository(db, this)
         presenter.onCreate()
     }
 
-    fun intends() = Intent(this@GalleryActivity, AllContentActivity::class.java)
+    fun intends() = Intent(requireActivity(), MiContentActivity::class.java)
 }

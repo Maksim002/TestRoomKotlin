@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="color_text_w_pink">#F45E2E</color>
     <color name="color_text_w">#2D86D9</color>
     <color name="color_text_wss">#2D86D9</color>
     <color name="color_text_white">#fefe</color>

@@ -29,7 +29,7 @@
                 android:layout_marginLeft="16sp"
                 android:backgroundTint="@color/color_text_white"
                 android:hint="Наименование таблицы"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:textColor="#fff"
                 android:layout_weight="1"
                 android:textColorHint="@color/color_text_white"

@@ -1,20 +1,20 @@
-package com.example.testroomkotlin.ui.gallery
+package com.example.testroomkotlin.ui.main.fragment.all
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.ui.main.fragment.all.adapter.AllAdapter
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ModelGallery
 import com.example.testroomkotlin.ui.contentAll.AllContentActivity
-import com.example.testroomkotlin.ui.main.fragment.all.AllDatabaseRepository
-import com.example.testroomkotlin.ui.main.fragment.all.AllDatabaseView
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_gallery.*
 
-class GalleryActivity: AppCompatActivity(), AllDatabaseView {
+class AllDatabaseFragment : Fragment(), AllDatabaseView {
     private lateinit var db: AppDataBase
     private lateinit var firebaseDb: FirebaseFirestore
     private lateinit var presenter: AllDatabaseRepository
@@ -22,9 +22,16 @@ class GalleryActivity: AppCompatActivity(), AllDatabaseView {
     private lateinit var adapters: AllAdapter
     private val list: ArrayList<ModelGallery> = arrayListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gallery)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_all_database, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initGallery()
     }
 
@@ -42,7 +49,7 @@ class GalleryActivity: AppCompatActivity(), AllDatabaseView {
                     intent.putExtra("op", presenter.open[list[position].id].toString())
                 }
                 startActivity(intent)
-        }
+            }
 
             override fun setOnClickItem(position: Int) {
                 presenter.delete(list[position].id?: 0)
@@ -88,10 +95,10 @@ class GalleryActivity: AppCompatActivity(), AllDatabaseView {
         //База firebase
         firebaseDb = FirebaseFirestore.getInstance()
         //База mobile
-        db = AppDataBase.instance(this)
+        db = AppDataBase.instance(requireContext())
         presenter = AllDatabaseRepository(db, firebaseDb, this)
         presenter.onCreate()
     }
 
-    fun intends() = Intent(this@GalleryActivity, AllContentActivity::class.java)
+    fun intends() = Intent(requireActivity(), AllContentActivity::class.java)
 }

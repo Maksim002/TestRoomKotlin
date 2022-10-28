@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.gallery.GalleryActivity"
+        <activity android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity" />
+<!--        <activity android:name=".ui.main.MainActivity" />-->
         <activity android:name=".ui.addDB.AddActivity" />
-        <activity android:name=".ui.content.AddContentActivity" />
+        <activity android:name=".ui.contentAll.AllContentActivity" />
+        <activity android:name=".ui.contentMi.MiContentActivity" />
     </application>
 </manifest>

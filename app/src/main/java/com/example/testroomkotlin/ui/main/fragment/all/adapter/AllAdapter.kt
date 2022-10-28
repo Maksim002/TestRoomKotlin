@@ -1,4 +1,4 @@
-package com.example.testroomkotlin.adapter
+package com.example.testroomkotlin.ui.main.fragment.all.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<GalleryViewHolder>() {
+class AllAdapter(var listener: Listener) : RecyclerView.Adapter<AllViewHolder>() {
 
     private var item: List<ModelGallery>
     init {
@@ -24,7 +24,7 @@ class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<GalleryViewH
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AllViewHolder(
         LayoutInflater.from(parent.context).inflate(
             R.layout.item_gallery, parent, false
         )
@@ -32,7 +32,7 @@ class GalleryAdapter(var listener: Listener) : RecyclerView.Adapter<GalleryViewH
 
     override fun getItemCount() = item.size
 
-    override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AllViewHolder, position: Int) {
         holder.bind(item[position], holder)
         holder.itemView.setOnClickListener {
             if (item[position].id == 9379992){

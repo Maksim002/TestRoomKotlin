@@ -1,6 +1,5 @@
-package com.example.testroomkotlin.ui.gallery
+package com.example.testroomkotlin.ui.main.fragment.all
 
-import androidx.lifecycle.MutableLiveData
 import com.example.testroomkotlin.db.AppDataBase
 import com.example.testroomkotlin.db.model.ModelGallery
 import com.google.firebase.firestore.DocumentChange
@@ -10,10 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class GalleryRepository(
+class AllDatabaseRepository(
     private var db: AppDataBase,
     private var firebaseDb: FirebaseFirestore,
-    var view: GalleryView? = null
+    var view: AllDatabaseView? = null
 ) : CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
     var open : HashMap<Int,String> = hashMapOf()
@@ -25,7 +24,7 @@ class GalleryRepository(
 
     private fun firebaseToList() {
      firebaseDb.collection("db")
-         .addSnapshotListener { value, error ->
+         .addSnapshotListener { value, _ ->
              value?.documentChanges!!.forEach {
                  if (it.type == DocumentChange.Type.REMOVED){
                      launch {

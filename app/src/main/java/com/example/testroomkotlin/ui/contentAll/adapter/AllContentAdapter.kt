@@ -1,7 +1,6 @@
-package com.example.testroomkotlin.adapter
+package com.example.testroomkotlin.ui.contentAll.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testroomkotlin.R
@@ -10,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ContentAdapter(var listener: Listener) : RecyclerView.Adapter<ContentViewHolder>() {
+class AllContentAdapter(var listener: Listener) : RecyclerView.Adapter<AllContentViewHolder>() {
 
     private var item: List<ContentModel>
     private var booleanVal: Boolean? = true
@@ -30,7 +29,7 @@ class ContentAdapter(var listener: Listener) : RecyclerView.Adapter<ContentViewH
         booleanVal = boolean
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ContentViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AllContentViewHolder(
         LayoutInflater.from(parent.context).inflate(
             R.layout.item_content, parent, false
         ), listener
@@ -38,7 +37,7 @@ class ContentAdapter(var listener: Listener) : RecyclerView.Adapter<ContentViewH
 
     override fun getItemCount() = item.size
 
-    override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AllContentViewHolder, position: Int) {
         holder.bind(item[position], holder, booleanVal)
     }
 

@@ -1,14 +1,14 @@
-package com.example.testroomkotlin.adapter
+package com.example.testroomkotlin.ui.main.fragment.mi.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testroomkotlin.R
-import com.example.testroomkotlin.db.model.ModelGallery
-import kotlinx.android.synthetic.main.item_gallery.view.*
+import com.example.testroomkotlin.db.model.Model
+import kotlinx.android.synthetic.main.item_mi.view.*
 
-class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MiViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(dataItem: ModelGallery, holder: GalleryViewHolder) = with(holder.itemView) {
+    fun bind(dataItem: Model, holder: MiViewHolder) = with(holder.itemView) {
         title_id.text = dataItem.title
         if (dataItem.id == 9379992){
             image_id.setImageDrawable(resources.getDrawable(R.drawable.icons8_03))
