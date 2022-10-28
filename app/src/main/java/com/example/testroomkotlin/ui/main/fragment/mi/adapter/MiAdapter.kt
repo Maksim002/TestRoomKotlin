@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.model.Model
-import kotlinx.android.synthetic.main.item_gallery.view.*
+import kotlinx.android.synthetic.main.item_mi.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

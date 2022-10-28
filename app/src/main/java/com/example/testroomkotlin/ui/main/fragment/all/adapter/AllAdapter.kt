@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testroomkotlin.R
 import com.example.testroomkotlin.db.model.ModelGallery
-import kotlinx.android.synthetic.main.item_gallery.view.*
+import kotlinx.android.synthetic.main.item_all.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ class AllAdapter(var listener: Listener) : RecyclerView.Adapter<AllViewHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AllViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.item_gallery, parent, false
+            R.layout.item_all, parent, false
         )
     )
 

@@ -55,13 +55,15 @@ class MiContentActivity : AppCompatActivity() {
 
             //Удаляет модель
             override fun setOnClickListenerDelete(ntMap: ContentModel, intMap: Int) {
-                map.remove(ntMap.id!!)
-                listMap.removeAt(intMap)
-                list.removeAt(intMap)
-                adapters.setData(listMap)
-                bottomSave.isVisible = true
-                addItem.isVisible = false
-                adapters.notifyItemRemoved(intMap)
+                try {
+                    map.remove(ntMap.id!!)
+                    listMap.removeAt(intMap)
+                    list.removeAt(intMap)
+                    adapters.setData(listMap)
+                    bottomSave.isVisible = true
+                    addItem.isVisible = false
+                    adapters.notifyItemRemoved(intMap)
+                }catch (e: Exception){e.printStackTrace()}
             }
         })
 

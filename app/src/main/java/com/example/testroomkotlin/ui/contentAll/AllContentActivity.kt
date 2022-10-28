@@ -60,13 +60,15 @@ class AllContentActivity : AppCompatActivity() {
 
             //Удаляет модель
             override fun setOnClickListenerDelete(ntMap: ContentModel, intMap: Int) {
-                map.remove(ntMap.id!!)
-                listMap.removeAt(intMap)
-                list.removeAt(intMap)
-                adapters.setData(listMap)
-                bottomSave.isVisible = true
-                addItem.isVisible = false
-                adapters.notifyItemRemoved(intMap)
+                try {
+                    map.remove(ntMap.id!!)
+                    listMap.removeAt(intMap)
+                    list.removeAt(intMap)
+                    adapters.setData(listMap)
+                    bottomSave.isVisible = true
+                    addItem.isVisible = false
+                    adapters.notifyItemRemoved(intMap)
+                } catch (e: Exception){e.printStackTrace()}
             }
         })
 
@@ -74,11 +76,11 @@ class AllContentActivity : AppCompatActivity() {
             //Новое добовление параметров
             adapters.setData(list)
             refreshFile.isVisible = false
-            list.add(ContentModel(0,"", false))
+            list.add(ContentModel(0, "", false))
         } else {
             //Полечение данных с другова фрагмента для редактирования
             val data = intent.extras!!.getSerializable("model") as ModelGallery
-            data.arrey?.map {listMap.add(ContentModel(repId(), it.text, it.isCheck))}
+            data.arrey?.map { listMap.add(ContentModel(repId(), it.text, it.isCheck)) }
             listMap.map {
                 map[it.id!!.toInt()] = ContentModel(it.id, it.text, it.isCheck)
                 list.add(ContentModel(it.id, it.text, it.isCheck))
@@ -99,7 +101,7 @@ class AllContentActivity : AppCompatActivity() {
             val text = titleEditText.text.toString()
             if (text != "") {
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (conValue()){
+                    if (conValue()) {
                         deleteModel()
                     }
                     addModel(text)
@@ -111,13 +113,13 @@ class AllContentActivity : AppCompatActivity() {
         }
 
         addItem.setOnClickListener {
-            list.add(ContentModel(0,"", false))
+            list.add(ContentModel(0, "", false))
             adapters.setData(list)
         }
     }
 
     //Удаление из баз
-    private fun deleteModel(){
+    private fun deleteModel() {
         firebaseDb.collection("db")
             .document(intent.extras!!.getString("op").toString())
             .delete()
@@ -125,7 +127,7 @@ class AllContentActivity : AppCompatActivity() {
     }
 
     //Добовление
-    private fun addModel(text: String){
+    private fun addModel(text: String) {
         listMap.clear()
         list.clear()
         map.map {
@@ -155,7 +157,7 @@ class AllContentActivity : AppCompatActivity() {
                 bottomSave.isVisible = true
                 titleEditText.isEnabled = true
                 addItem.isVisible = true
-            }else{
+            } else {
                 adapters.valueBol(false)
                 bottomSave.isVisible = false
                 titleEditText.isEnabled = false
@@ -166,12 +168,13 @@ class AllContentActivity : AppCompatActivity() {
 
     //Генерация id
     private fun repId() = Random().nextInt(500) + 20
+
     //Проверка новое добовление или редактирование старого
     private fun conValue() = intent.extras!!.getBoolean("value")
 
     //Функция системная возврощает на предыдущий экран
     override fun onBackPressed() {
         if (!refreshFile.isChecked)
-        super.onBackPressed()
+            super.onBackPressed()
     }
 }
