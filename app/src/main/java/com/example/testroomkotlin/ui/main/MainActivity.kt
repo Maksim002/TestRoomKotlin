@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomAll.setOnClickListener {
             profilePager.currentItem = 1
-            textTitle.text = "Общии заметки"
+            textTitle.text = "Общие заметки"
             logColor(R.color.color_text_w)
         }
         profilePager.adapter = adapter

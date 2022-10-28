@@ -56,7 +56,7 @@
             android:background="@drawable/blue_button_styles_all"
             android:textColor="@color/color_text_w"
             android:padding="20dp"
-            android:text="Общии заметки"
+            android:text="Общие заметки"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 </LinearLayout>
